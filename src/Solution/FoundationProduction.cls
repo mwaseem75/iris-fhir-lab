@@ -1,0 +1,24 @@
+Class FHIRLAB.FoundationProduction Extends Ens.Production [ Not ProcedureBlock ]
+{
+
+XData ProductionDefinition
+{
+<Production Name="FHIRNAMESPACEPKG.FoundationProduction" TestingEnabled="true" LogGeneralTraceEvents="true">
+  <Description></Description>
+  <ActorPoolSize>1</ActorPoolSize>
+
+  <Item Name="HS.FHIRServer.Interop.Service" Category="" ClassName="HS.FHIRServer.Interop.Service" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="TargetConfigName">FHIRLAB.FHIRBPL</Setting>
+  </Item>
+  <Item Name="FHIRLAB.FHIRBPL" Category="" ClassName="FHIRLAB.FHIRBPL" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  </Item>
+  <Item Name="HS.FHIRServer.Interop.Operation" Category="" ClassName="HS.FHIRServer.Interop.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>
+  <Item Name="To_Scheduling" Category="" ClassName="EnsLib.HL7.Operation.FileOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="FilePath">/home/project/shared/Samples-FHIR-Oximeter-Devices/Out/</Setting>
+    <Setting Target="Host" Name="Filename">%f_%Q%!+(_a)</Setting>
+  </Item>
+</Production>
+}
+
+}
