@@ -108,7 +108,7 @@ ClassMethod Init() As %Integer
 
 // Resigter server by using FhirServer persistent Class
 
-ClassMethod SaveServer(ServerName As %String, Endpoint As %String, ApiKey As %String = "", EndpointOAuth As %String = "") As %Integer
+ClassMethod SaveServer(ServerName As %String, Endpoint As %String, ApiKey As %String = "", EndpointOAuth As %String = "") As %String
 {
 	//Create global fhirServer reference variable if not created
 	if $DATA(^$GLOBAL("^FhirLabServer"))= 0 
@@ -125,7 +125,7 @@ ClassMethod SaveServer(ServerName As %String, Endpoint As %String, ApiKey As %St
 	if sts = 1
 	{
 		
-			Quit
+		   Quit " "
 			
 	}
 	else
@@ -224,7 +224,7 @@ ClassMethod SetFhirServer(serverid As %Integer) As %Status
 	ELSE
 	{
 		Write "FHIR Server Not registered!"
-		Quit
+		Quit $$$error
 	}
 }
 
@@ -242,7 +242,7 @@ ClassMethod DeleteServer(serverid As %Integer) As %Status
 	ELSE
 	{
 		Write "FHIR Server Not registered!"
-		Quit
+		Quit $$$error
 	}
 }
 
@@ -257,7 +257,7 @@ ClassMethod GetFhirServer(serverid As %Integer) As %String
 	ELSE
 	{
 		Write "FHIR Server Not found"
-		Quit
+		Quit $$$error
 	}
 }
 
@@ -265,7 +265,7 @@ ClassMethod GetFhirServer(serverid As %Integer) As %String
 
 // Method invoked from CSP Application to get Resource HTML
 
-ClassMethod GetResourceHTML(resource As %String, patid As %String) As %Status
+ClassMethod GetResourceHTML(resource As %String, patid As %String) As %String
 {
 	//Get Active Server data based on Global Variable 
 	Set obj = ##class(dc.FhirLab.Server).%OpenId(^FhirLabServer)
