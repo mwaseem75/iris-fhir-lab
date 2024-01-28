@@ -6,7 +6,9 @@ FROM $IMAGE as builder
 WORKDIR /opt/irisapp
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/irisapp
 
-COPY  src src
+COPY src src
+COPY python python
+COPY module.xml module.xml
 
 # run iris and initial 
 RUN --mount=type=bind,src=.,dst=. \
@@ -22,3 +24,5 @@ ADD --chown=${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} https://github.com/g
 RUN --mount=type=bind,source=/,target=/builder/root,from=builder \
     cp -f /builder/root/usr/irissys/iris.cpf /usr/irissys/iris.cpf && \
     python3 /irisdev/app/copy-data.py -c /usr/irissys/iris.cpf -d /builder/root/ 
+    
+

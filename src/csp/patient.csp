@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>IRIS FHIR LAB</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <link rel="icon" href="resources/img/icon.png" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script src="resources/js/webfont.min.js"></script>
+    <script type="text/javascript">
+        WebFont.load({
+            google: {
+                "families": ["Lato:300,400,700,900"]
+            },
+            custom: {
+                "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands", "simple-line-icons"
+                ],
+                urls: ['resources/css/fonts.min.css']
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/atlantis.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/adminlte.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/datatables.min.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/buttons.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/jquery.dataTables.min.css">
+
+  <style>
+        #search-box {   margin-bottom: 10px; } 
+        .app-bg-color {background-color: #f5f5f5;
+        margin-left: 0px;
+        }     
+        .list-group-item{padding: 0.10rem 0.75rem } 
+        .list-group-item a {color : #000000 }   
+        .nav-pills>li>.nav-link {
+    		border: none;
+    		color: #000000;
+    		}  
+    	table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  app-right-align {
+    text-align: right;
+    border: 1px solid #ddd; /* Optional: Add border for better visualization */
+    padding: 8px; /* Optional: Add padding for better spacing */
+  }	
+ </style>
+
+</head>
+
+<body>
+    <csp:class encoded=1 super="%CSP.Page, dc.FhirLab.Client">
+   
+<script language="Cache" runat="Server">
+	Set currentserver = ^FhirLabServer
+	set patid = $Get(%request.Data("pid",1),0)  
+	set patname = $Get(%request.Data("pname",1),0)      
+	set resource1 = $Get(%request.Data("resource",1),"")  		
+</script>
+  <input type="hidden" id="hiddenInput" value=#(resource1)#>
+  
+   <div class="container-fluid">
+        <!-- NavBar -->
+        <nav class="navbar navbar-header navbar-expand-lg app-bg-color">
+            
+              <ul class="nav nav-pills">
+                       		<li class="nav-item">
+							<a class="nav-link" href="/csp/fhirlab/index.csp"><i class="bi bi-house-door"></i> Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/csp/fhirlab/resource.csp?resource=Patient"><i class="bi bi-person"></i> Patient</a>
+						</li>	
+						<li class="nav-item">
+							<a class="nav-link" href="/csp/sys/%25CSP.Portal.Home.zen">Management Portal</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/csp/healthshare/fhirserver/EnsPortal.ProductionConfig.zen?$NAMESPACE=FHIRSERVER&$NAMESPACE=FHIRSERVER&">Production</a>
+						</li>						
+						<li class="nav-item">
+							<a class="nav-link" href="https://www.hl7.org/fhir/">FHIR Official website</a>
+						</li>						
+                    </ul>          
+        </nav>
+        <!-- End Navbar -->
+       <div class="card card-widget widget-user-2">
+                            <!-- Add the bg color to the header using any of the bg-* classes -->
+                            <div class="widget-user-header" style="background-color: #ebdede">
+                                <div class="row">
+                                    <div class="col-md-1" style="text-align:right;">
+				                	<i style="font-size: 3em;" class="bi bi-person bg-ion"></i>
+				                    </div>
+                                    <div class="col-md-8">
+                                        <!-- /.widget-user-image -->
+                                        <h3  style="margin-left: 0" class="widget-user-username bg-ion ">
+                                            #( patname )#
+                                        </h3>
+                                        <h5  style="margin-left: 0" class="widget-user-desc bg-ion">ID = #( patid )#</h5>
+                                    </div>
+                                </div>
+                           
+                        </div>
+        <div class="row">
+            <div class="col-lg-2 col-2  col-md-3">
+                <!-- Customized Card -->
+                <div class="card" style="margin-top: 10px;">                      
+                <!-- /.card-header -->                           
+                            <!-- Widget: user widget style 2 -->
+                            <div class="card card-widget widget-user-2">
+                                <!-- Add the bg color to the header using any of the bg-* classes -->
+                                <div class="widget-user-header app-bg-color" style="padding:0.5rem; margin-left: 0px;">                                    
+                                    <!-- /.widget-user-image -->
+                                    <h6 class="text-center font-weight-bold">Common Resources</h6>
+                                </div>                            
+       
+			       <ul class="list-group">                                     
+                        <script language="Cache" runat="Server">
+                           Write "<li class=""list-group-item""><a href=""/csp/fhirlab/patient.csp?resource=Observation&pid="_ patid _"&pname="_ patname _ """> Observation </a></li>"
+                           Write "<li class=""list-group-item""><a href=""/csp/fhirlab/patient.csp?resource=Procedure&pid="_ patid _"&pname="_ patname _ """> Procedure </a></li>"
+                           Write "<li class=""list-group-item""><a href=""/csp/fhirlab/patient.csp?resource=Encounter&pid="_ patid _"&pname="_ patname _ """> Encounter </a></li>"
+                           Write "<li class=""list-group-item""><a href=""/csp/fhirlab/patient.csp?resource=DiagnosticReport&pid="_ patid _"&pname="_ patname _ """> DiagnosticReport </a></li>"                           
+                           Write "<li class=""list-group-item""><a href=""/csp/fhirlab/patient.csp?resource=MedicationRequest&pid="_ patid _"&pname="_ patname _ """> MedicationRequest </a></li>"                                                      
+                           Write "<li class=""list-group-item""><a href=""/csp/fhirlab/patient.csp?resource=Immunization&pid="_ patid _"&pname="_ patname _ """> Immunization </a></li>"
+                           Write "<li class=""list-group-item""><a href=""/csp/fhirlab/patient.csp?resource=Condition&pid="_ patid _"&pname="_ patname _ """> Condition </a></li>"
+                           Write "<li class=""list-group-item""><a href=""/csp/fhirlab/patient.csp?resource=Claim&pid="_ patid _"&pname="_ patname _ """> Claim </a></li>"
+                      </script>
+                    </ul>   
+
+                    
+                      </div>
+                        <!-- /.table-responsive -->
+                    </div>                  
+            </div>
+            
+		    <div class="col-lg-7 col-7 col-md-7">
+			     <div class="container">
+                    <!-- Customized Card -->
+                    <div class="card border-0" style="margin-top: 20px; border:none">                       
+                        <!-- /.card-header -->
+                            <div class="card-header">                                                                                           
+                                 
+                                <div class="widget-user-header" style="padding:0.5rem; margin-left: 0px;">                                    
+                                    <!-- /.widget-user-image -->
+                                    <h3 class="text-center"> #(resource1)# Resource details</h3>
+                                </div>     
+								<div class="table-responsive">
+										<table id="resource-data" class="display table table-striped table-hover" >															
+											   #(..GetResourceHTML(resource1,patid))#											
+										</table>
+									</div>                             
+                            </div>           
+                              
+                            
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>                  
+                </div>
+            
+            
+            
+             <div class="col-lg-3 col-3  col-md-3" style="margin-top: 20px;border: 1px solid #ccc; padding: 10px;">
+			 	 <div class="nav nav-tabs" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        			<a class="nav-link active" id="tab1-tab" data-toggle="pill" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Resource Details</a>
+        			<a class="nav-link" id="tab2-tab" data-toggle="pill" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">JSON</a>
+      			</div>     
+      			   <!-- Tab Content -->
+				  <div class="tab-content" id="v-pills-tabContent">
+				    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+				      
+				      <pre id ="sourcedtl" ></pre>
+				    </div>
+				    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+				      
+				      <pre id="jsondtl"></pre>
+				    </div>
+				  </div>
+             </div>
+                
+             </div>  <!-- /.container -->
+            </div>
+            <!-- /.col -->
+         
+
+        </div>
+    
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul class="nav">
+                        <li class="nav-item">
+
+                            2024, IRIS-FHIR-LAB
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+        </footer>
+        </div>
+        </div>
+
+        </div>
+        </div>
+        <!--   Core JS Files   -->
+        <script src="resources/js/jquery.min.js"></script>
+		<script src="resources/js/jquery-ui.min.js"></script>
+		
+		<script src="resources/js/popper.min.js"></script>
+        <script src="resources/js/bootstrap.min.js"></script>
+        <!-- jQuery UI -->
+        
+        <script src="resources/js/jquery.ui.touch-punch.min.js"></script>
+        <!-- jQuery Scrollbar -->
+        <script src="resources/js/jquery.scrollbar.min.js"></script>
+        <!-- Atlantis JS -->
+        <script src="resources/js/atlantis.min.js"></script>
+		<!-- Script Files -->
+		
+		<script src="resources/js/datatables.min.js"></script>
+		<script src="resources/js/dataTables.buttons.min.js"></script>
+		<script src="resources/js/jszip.min.js"></script>
+		<script src="resources/js/pdfmake.min.js"></script>
+		<script src="resources/js/vfs_fonts.js"></script>
+		<script src="resources/js/buttons.html5.min.js"></script>
+		
+        
+		<script type="text/javascript">
+
+            $(document).ready(function () {               
+                $('#resource-data').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copyHtml5',
+                        'excelHtml5',
+                        'csvHtml5',
+                        'pdfHtml5'
+                    ]
+                });
+            });	
+            
+                      
+			 function handleRowClick(rowId) {
+			    // Do something with the rowId, for example, alert it
+			    //const className = 'dc.FhirLab.Client';
+			    //cmValue = iris.classMethodValue(className,'Av');
+			    var myElement = document.getElementById("sourcedtl");
+			    var myElementJson = document.getElementById("jsondtl");
+			    var resourceName = document.getElementById("hiddenInput").value;				  
+			    if (myElement) {   
+			    	myElement.innerHTML = #server(..ResourceJSONHuman(resourceName,rowId))#;
+			    	myElementJson.innerHTML = #server(..ResourceJSON(resourceName,rowId))#;
+ 					 }			   
+			    // You can also perform other actions or call additional functions here
+			  }
+       
+        	function filterList() {
+				var input, filter, ul, li, i, txtValue;
+				input = document.getElementById('search');
+				filter = input.value.toUpperCase();
+				ul = document.getElementById('item-list');
+	            li = ul.getElementsByTagName('li');
+
+				for (i = 0; i < li.length; i++) {
+					txtValue = li[i].textContent || li[i].innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						li[i].style.display = '';
+					} else {
+						li[i].style.display = 'none';
+					}
+				}
+        	}
+    	</script>
+</body>
+
+
+</html>

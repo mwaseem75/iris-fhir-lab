@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>IRIS FHIR LAB</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <link rel="icon" href="resources/img/icon.png" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script src="resources/js/webfont.min.js"></script>
+    <script type="text/javascript">
+        WebFont.load({
+            google: {
+                "families": ["Lato:300,400,700,900"]
+            },
+            custom: {
+                "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands", "simple-line-icons"
+                ],
+                urls: ['resources/css/fonts.min.css']
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/atlantis.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/adminlte.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/datatables.min.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/buttons.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/jquery.dataTables.min.css">
+
+  <style>
+        #search-box {   margin-bottom: 10px; } 
+        .app-bg-color {background-color: #f5f5f5;
+        margin-left: 0px;
+        }     
+        .list-group-item{padding: 0.10rem 0.75rem }  
+        .list-group-item a {color : #000000 }  
+        .nav-pills>li>.nav-link {
+    		border: none;
+    		color: #000000;
+    		}  
+    	table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  app-right-align {
+    text-align: right;
+    border: 1px solid #ddd; /* Optional: Add border for better visualization */
+    padding: 8px; /* Optional: Add padding for better spacing */
+  }	
+ </style>
+
+</head>
+
+<body>
+  <csp:class encoded=1 super="%CSP.Page, dc.FhirLab.Client">
+  <script language=SQL name=query>
+        SELECT id,ServerName,Endpoint,Sys FROM dc_FhirLab.Server
+ </script>
+ <script language="Cache" runat="Server">
+	Set currentserver = ^FhirLabServer
+	// Open Order object for display
+    Set ord = ##class(dc.FhirLab.Server).%OpenId(currentserver)
+    
+ </script>
+	
+  
+   	
+<div class="container-fluid">
+            <!-- NavBar -->
+            <nav class="navbar navbar-header navbar-expand-lg app-bg-color">               
+                    <ul class="nav nav-pills">
+                       		<li class="nav-item">
+							<a class="nav-link" href="/csp/fhirlab/index.csp"><i class="bi bi-house-door"></i> Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/csp/sys/%25CSP.Portal.Home.zen">Management Portal</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/csp/healthshare/fhirserver/EnsPortal.ProductionConfig.zen?$NAMESPACE=FHIRSERVER&$NAMESPACE=FHIRSERVER&">Production</a>
+						</li>						
+						<li class="nav-item">
+							<a class="nav-link" href="https://www.hl7.org/fhir/">FHIR Official website</a>
+						</li>						
+                    </ul>                              
+            </nav>
+            <!-- End Navbar -->
+                       
+    <div class="row">  
+        <div class="col-lg-2 col-2">            
+                <div class="card card-widget widget-user-2" style="margin-top: 10px;">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header app-bg-color" style="padding:0.5rem; margin-left: 0px;">                                    
+                        <!-- /.widget-user-image -->
+                        <h6 class="text-center font-weight-bold">Common Resources</h6>
+                    </div>                            
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="/csp/fhirlab/resource.csp?resource=Patient">Patient</a></li>
+                        <li class="list-group-item"><a href="/csp/fhirlab/resource.csp?resource=Observation">Observation</a></li>
+                        <li class="list-group-item"><a href="/csp/fhirlab/resource.csp?resource=Procedure">Procedure</a></li>
+                        <li class="list-group-item"><a href="/csp/fhirlab/resource.csp?resource=Encounter">Encounter</a></li>
+                        <li class="list-group-item"><a href="/csp/fhirlab/resource.csp?resource=Organization">Organization</a></li>
+                        <li class="list-group-item"><a href="/csp/fhirlab/resource.csp?resource=Condition">Condition</a></li>
+                        <li class="list-group-item"><a href="/csp/fhirlab/resource.csp?resource=Practitioner">Practitioner</a></li>
+                    </ul>   
+
+                    <div class="widget-user-header app-bg-color" style="padding:0.5rem;margin-top: 10px;">                          
+                        <h6 class="text-center font-weight-bold" > All Resources</h6>
+                    </div>
+                    <div id="search-box" class="input-group">											
+                        <input type="text" id="search" class="form-control" placeholder="Search" onkeyup="filterList()">
+                    </div>
+                    <ul id="item-list" class="list-group">
+                        <script language="Cache" runat="Server">
+                                Set resourcesList = ..ListResources()
+                                Set list = $ListFromString(resourcesList,",")
+                                Set n = $ListLength(list)
+                                For i=1:1:n {
+                                    Set resourcel = $List(list,i)
+                                    Write "<li class=""list-group-item""><a href=""/csp/fhirlab/resource.csp?resource="_ resourcel _""">" _ resourcel _ "</a></li>"
+                                    //Write "<li class=""list-group-item"">" _ resource _ "</li>"												
+                                }
+                                </script>
+                    </ul>
+                </div>  <!-- /.card -->     
+       </div> <!-- col-lg-2 col-2         -->
+       <div class="col-lg-10 col-10">
+			<div class="container">
+                <div class="card border-0" style="margin-top: 20px; border:none">                       
+                    <div class="card-header">                                                                                                           
+                        <div class="widget-user-header" style="padding:0.5rem; margin-left: 0px;">                                    
+                            <h3 class="text-center">FHIR Servers</h3>
+                        </div>                                      
+                        <table class="table table-hover">
+                        	<csp:while condition="query.Next()">
+                                <script language="Cache" runat="Server">
+                                    Set id = (..EscapeHTML(query.GetData(1)))
+                                    Set sys = (..EscapeHTML(query.GetData(4)))
+                                    Set sysval = "Y"
+                                </script>
+                                <tr>					
+                                    <csp:if condition= "currentserver = id">					
+                                        <td class="app-right-align"> <span style="font-size: 1.75em;color:#cfb442"><i class="bi bi-star"></i> </span></td>				
+                                        <td> 
+                                            <span style="font-size: 1.4em;"> #(..EscapeHTML(query.GetData(2)))#</span> <br>
+                                            <span> #(..EscapeHTML(query.GetData(3)))#</span> </td> 
+                                        <td class="app-right-align" > 
+                                            <span style="font-size: 1.4em;"></span> 
+                                            <span style="padding: 15px;"> <a href="javascript:void(0);" onclick="viewServer('#(..EscapeHTML(query.GetData(1)))#')" style="color: #212529;"> <i class="bi bi-pencil-square"></i> View </a></span> </td>      
+                                    <CSP:ELSE>		
+                                        <td> </td>						
+                                        <td> <span style="font-size: 1.4em;"> #(..EscapeHTML(query.GetData(2)))#</span> <br>
+                                            <span> #(..EscapeHTML(query.GetData(3)))#</span> </td> 
+                                        <td class="app-right-align" > 
+                                            <span> <a href="javascript:void(0);" onclick="connectServer('#(..EscapeHTML(query.GetData(1)))#')" style="color: #212529;"> <i class="bi bi-plugin"></i> Connect</a> </span> 
+                                            <span style="padding: 15px;"> <a href="javascript:void(0);" onclick="viewServer('#(..EscapeHTML(query.GetData(1)))#')" style="color: #212529;"> <i class="bi bi-pencil-square"></i> View </a></span>    
+                                            
+                                            
+                                        <csp:if condition = "sys = sysval">  
+                                        <CSP:ELSE>		
+                                            	<span> <a href="javascript:void(0);" onclick="deleteServer('#(..EscapeHTML(query.GetData(1)))#')" style="color: #212529;"> <i class="bi bi-x-circle"></i> Delete </a> </span> </td>      
+                                        </csp:if>	 
+                                            
+                                    </csp:if>		
+                                </tr>
+   				            </csp:while>   
+ 						</table>        							
+                    </div> <!-- card header -->                                   
+                    <div class="card-footer border-0">
+                        <div class="card-footer text-center">                                  
+                            <!-- /.widget-user-image -->
+                            <button type="button" class="btn btn-primary"  onclick="addServer()"> <i class="bi bi-plugin"></i> Add FHIR Server</button>
+
+                        </div>                                            
+                    </div>  
+                </div>              
+            </div>  <!-- /.container -->
+          </div> <!-- col-lg-10 col-10         -->    
+    </div> <!-- /row -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <nav class="pull-left">
+                <ul class="nav">
+                    <li class="nav-item">
+                        2024, IRIS-FHIR-LAB
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+</div> <!-- Main container-->
+
+<!-- Server dialog -->
+<div class="modal fade" id="serverModal" tabindex="-1" role="dialog" aria-labelledby="serverModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="serverModalLabel">View FHIR Server Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+    <!-- First String Field -->
+    <div class="form-group">
+      <label for="field1">Server Name:</label>
+      <input type="text" class="form-control" id="serverName" required>
+    </div>
+
+    <!-- Second String Field -->
+    <div class="form-group">
+      <label for="field2">End Point:</label>
+      <input type="text" class="form-control" id="endPoint" required>
+    </div>
+
+    <!-- Third String Field -->
+    <div class="form-group">
+      <label for="field3">Api Key:</label>
+      <input type="text" class="form-control" id="apiKey">
+    </div>
+
+    <!-- Fourth String Field -->
+    <div class="form-group">
+      <label for="field4">EndpointOAuth:</label>
+      <input type="text" class="form-control" id="oAuth">
+    </div>
+
+    
+  </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id = "addbtn" class="btn btn-primary" onclick="saveServer()">Add Server</button>        
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+        <!--   Core JS Files   -->
+        <script src="resources/js/jquery.min.js"></script>
+		<script src="resources/js/jquery-ui.min.js"></script>
+		
+		<script src="resources/js/popper.min.js"></script>
+        <script src="resources/js/bootstrap.min.js"></script>
+        <!-- jQuery UI -->
+        
+        <script src="resources/js/jquery.ui.touch-punch.min.js"></script>
+        <!-- jQuery Scrollbar -->
+        <script src="resources/js/jquery.scrollbar.min.js"></script>
+        <!-- Atlantis JS -->
+        <script src="resources/js/atlantis.min.js"></script>
+		<!-- Script Files -->
+		
+		<script src="resources/js/datatables.min.js"></script>
+		<script src="resources/js/dataTables.buttons.min.js"></script>
+		<script src="resources/js/jszip.min.js"></script>
+		<script src="resources/js/pdfmake.min.js"></script>
+		<script src="resources/js/vfs_fonts.js"></script>
+		<script src="resources/js/buttons.html5.min.js"></script>
+		
+        
+<script type="text/javascript">          
+
+	 function connectServer(serverID) {		 	     
+		 var res =  #server(..SetFhirServer(serverID))#;
+		 //alert("Favorite weird creature: " + getRadioButtonValue(document.aye.whichThing));
+          window.location.reload();
+         //event.preventDefault(); // disable normal form submit behavior
+         //return false; // prevent further bubbling of event
+     }
+     
+      function viewServer(serverID) {		 	      	 
+      	       	 		 
+		 var obj =  #server(..GetFhirServer(serverID))#;
+		 var arrayOfSubstrings = obj.split(';');
+		 var val = document.getElementById('serverName');
+		 val.value = arrayOfSubstrings[0];val.disabled = true;
+		 val = document.getElementById('endPoint');
+		 val.value = arrayOfSubstrings[1];val.disabled = true;
+		 val = document.getElementById('apiKey');
+		 val.value = arrayOfSubstrings[2];val.disabled = true;
+		 val = document.getElementById('oAuth');
+		 val.value = arrayOfSubstrings[3];val.disabled = true;
+		 var button = document.getElementById('addbtn');
+         button.style.display = 'none';
+		 $('#serverModal').modal('show');		 
+     }
+     
+      function addServer() {		 	      	       	       	 		 
+       	 var val = document.getElementById('serverName');
+		 val.value = "";val.disabled = false;
+		 val = document.getElementById('endPoint');
+		 val.value = "";val.disabled = false;
+		 val = document.getElementById('apiKey');
+		 val.value = "";val.disabled = false;
+		 val = document.getElementById('oAuth');
+		 val.value = "";val.disabled = false;  
+		 var button = document.getElementById('addbtn');
+         button.style.display = '';
+	     $('#serverModal').modal('show');		 
+     }
+     
+     function saveServer() {		 	      	       	       	 		 
+       	 var vall = document.getElementById('serverName').value;
+       	  if (!vall.trim()) {
+       		 alert('Please enter FHIR Server name first.');
+        	 return;
+          }
+		 var val2 = document.getElementById('endPoint').value;
+		 if (!val2.trim()) {
+       		 alert('Please enter FHIR Server End Point first.');
+        	 return;
+          }
+		 var val3 = document.getElementById('apiKey').value;
+		 var val4 = document.getElementById('oAuth').value;
+		 var val =  #server(..SaveServer(vall,val2,val3,val4))#; 
+		 $('#serverModal').modal('hide');
+	     window.location.reload();		 
+     }
+     
+     function deleteServer(serverID) {	
+         var result = confirm('Are you sure you want to delete the server?');	 	      	       	       	 		 
+       	 
+		  if (result) {
+      		// User clicked "OK"
+      		var obj =  #server(..DeleteServer(serverID))#;		
+      		window.location.reload();		 	      		
+    		} 
+     }
+     
+     
+    function filterList() {
+        var input, filter, ul, li, i, txtValue;
+        input = document.getElementById('search');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById('item-list');
+        li = ul.getElementsByTagName('li');
+
+        for (i = 0; i < li.length; i++) {
+            txtValue = li[i].textContent || li[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = '';
+            } else {
+                li[i].style.display = 'none';
+            }
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-  <Document name="fhir-server.ZPM">
+  <Document name="iris-fhir-lab.ZPM">
     <Module>
-      <Name>fhir-server</Name>
-      <Version>1.3.1</Version>
-      <Description>InterSystems FHIR Server with a demo frontend</Description>
+      <Name>iris-fhir-lab</Name>
+      <Version>1.0.1</Version>
+      <Description>InterSystems FHIR LAB to View FHIR resources</Description>
       <Keywords>FHIR,Server</Keywords>
       <Packaging>module</Packaging>
     <SourcesRoot>src</SourcesRoot>
-    <Invokes>
-    <Invoke Class="fhirtemplate.Setup" Method="SetupFHIRServer" Phase="Activate" When="After" ></Invoke>
-    </Invokes>
-    <Resource Name="fhirtemplate.PKG"/>
-    <FileCopy Name="data/fhir/" Target="${mgrdir}test-data-fhir/"/>
+    <Resource Name="dc.PKG"/>
+    <FileCopy Name="python/" Target="${mgrdir}python/"/>   
+    <Invoke Class="dc.FhirLab.Client" Method="Init"></Invoke>
+    
       <CSPApplication
-        Url="/fhirUI"
-        SourcePath="/fhirUI"
-        DeployPath="{$cspdir}/fhirUI"
+        Url="/csp/fhirlab"
+        Path="/src/csp"
+        Directory="{$cspdir}/fhirlab"
         ServeFiles="1"
         Recurse="1"
-        CookiePath="/fhirUI"
+        CookiePath="/csp/fhirlab/" 
+        UseCookies="2"
+        MatchRoles=":{$dbrole}" 
+        PasswordAuthEnabled="1"
+        UnauthenticatedEnabled="0"
        />
     </Module>
   </Document>

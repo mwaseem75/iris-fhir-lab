@@ -28,12 +28,17 @@
     Do $System.OBJ.LoadDir("/opt/irisapp/src","ck",,1)
    
     //Update FHIRServer Service Config Name
-    set cspApp = ##class(HS.Util.RESTCSPConfig).URLIndexOpen(appKey)
-    set cspApp.ServiceConfigName = "HS.FHIRServer.Interop.Service"
-    set status = cspApp.%Save()
+    //set cspApp = ##class(HS.Util.RESTCSPConfig).URLIndexOpen(appKey)
+    //set cspApp.ServiceConfigName = "HS.FHIRServer.Interop.Service"
+    //set status = cspApp.%Save()
     //$$$ThrowOnError(status)
 
-     //start the production
-    set status = ##class(FHIRLAB.FoundationProduction).Start()
+    //start the production
+    //set status = ##class(FHIRLAB.FoundationProduction).Start()
+    
+    zn "%SYS"
+    Do ##class(Security.Users).UnExpireUserPasswords("*")
 
+    zn "USER"
+    zpm "load /opt/irisapp/ -v":1:1
     halt
