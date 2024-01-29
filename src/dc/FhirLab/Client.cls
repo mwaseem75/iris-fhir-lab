@@ -264,7 +264,7 @@ ClassMethod GetFhirServer(serverid As %Integer) As %String
 }
 
 
-//Method invoked from CSP Application to get Resource HTML
+// Method invoked from CSP Application to get Resource HTML
 ClassMethod GetResourceHTML(resource As %String, patid As %String) As %String
 {
 	//Get Active Server data based on Global Variable 
