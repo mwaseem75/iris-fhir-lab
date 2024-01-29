@@ -72,16 +72,18 @@
   <input type="hidden" id="hiddenInput" value=#(resource1)#>
   
    <div class="container-fluid">
-        <!-- NavBar -->
-        <nav class="navbar navbar-header navbar-expand-lg app-bg-color">
-            
-              <ul class="nav nav-pills">
+             <!-- NavBar -->
+            <nav class="navbar navbar-header navbar-expand-lg app-bg-color">               
+                    <ul class="nav nav-pills">
                        		<li class="nav-item">
 							<a class="nav-link" href="/csp/fhirlab/index.csp"><i class="bi bi-house-door"></i> Home</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/csp/fhirlab/resource.csp?resource=Patient"><i class="bi bi-person"></i> Patient</a>
-						</li>	
+							<li class="nav-item">
+							<a class="nav-link" href="/csp/fhirlab/resource.csp?resource=Patient"><i class="bi bi-person"></i> Patient Resources</a>
+						</li>
+							<li class="nav-item">
+							<a class="nav-link" href="/csp/fhirlab/create.csp"><i class="bi bi-plus-circle"></i> Create Resource</a>
+						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="/csp/sys/%25CSP.Portal.Home.zen">Management Portal</a>
 						</li>
@@ -91,9 +93,9 @@
 						<li class="nav-item">
 							<a class="nav-link" href="https://www.hl7.org/fhir/">FHIR Official website</a>
 						</li>						
-                    </ul>          
-        </nav>
-        <!-- End Navbar -->
+                    </ul>                              
+            </nav>
+            <!-- End Navbar -->
        <div class="card card-widget widget-user-2">
                             <!-- Add the bg color to the header using any of the bg-* classes -->
                             <div class="widget-user-header" style="background-color: #ebdede">
