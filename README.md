@@ -1,5 +1,5 @@
 # Summary
-IRIS-FHIR-Lab is a web application to connect to FHIR server and view FHIR resources details along with dynamically creating and posting Patient and Observation resources.
+IRIS-FHIR-Lab is a web application that connects to FHIR server, get and list all the resources, dynamically list down resource details and display FHIR resource details both in JSON and human-readable format. Application also has a functionality to Create Patient and Patient observations.
 
 [![one](https://img.shields.io/badge/Platform-InterSystems%20IRIS-blue)](https://www.intersystems.com/data-platform/) [![one](https://img.shields.io/badge/WebFrameWork-CSP-Orange)](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=GCSP) [![one](https://img.shields.io/badge/Interoperability-HL7%20FHIR-yellow)](https://www.hl7.org/fhir/) [![one](https://img.shields.io/badge/Python%20Library-fhirpy-Maroon)](https://pypi.org/project/fhirpy/) [![OEX](https://img.shields.io/badge/Available%20on-Intersystems%20Open%20Exchange-00b2a9.svg)]() [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/mwaseem75/iris-fhir-lab/blob/main/LICENSE)
 
