@@ -66,7 +66,7 @@ Navigate to [http://localhost:32783/csp/fhirlab/index.csp](http://localhost:3278
 
 ### Create Patient Resource
 Select Create Resource from the menu or navigate to the below link to create a Patient Resource
-Navigate to [http://localhost:32783/csp/fhirlab/index.csp](http://localhost:32783/csp/fhirlab/create.csp) to run the application
+Navigate to [http://localhost:32783/csp/fhirlab/create.csp](http://localhost:32783/csp/fhirlab/create.csp) to run the application
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/ce7809da-e2af-4bb4-ba2c-9e3e2e69dbf3)
 
 ### Create Patient Observation Resource
