@@ -15,7 +15,7 @@ https://irisfhirlab.demo.community.intersystems.com/csp/fhirlab/index.csp by usi
 ## Features
 * Add/Remove any Open FHIR Server
 * Dynamically get the list of all FHIR resources
-* View full detail of the resources in JSON and Human readable format
+* View full details of the resources in JSON and Human readable format
 * View Patient related resources
 * Post basic Patient resources.
 * Post Patient Observation resources.
@@ -59,28 +59,28 @@ Click on the Resources List to view Resource records and further clink on the re
 
 
 ### View Patient Resources
-Select Patient from the main page or navigate to below link to view patient related resources
+Select Patient from the main page or navigate to the below link to view patient-related resources
 Navigate to [http://localhost:32783/csp/fhirlab/index.csp](http://localhost:32783/csp/fhirlab/patient.csp) to run the application
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/6279a4e6-1a7d-4374-ae3f-bb4b3f47a96c)
 
 
 ### Create Patient Resource
-Select Create Resource from menu or navigate to below link to create Patient Resource
+Select Create Resource from the menu or navigate to the below link to create a Patient Resource
 Navigate to [http://localhost:32783/csp/fhirlab/index.csp](http://localhost:32783/csp/fhirlab/create.csp) to run the application
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/ce7809da-e2af-4bb4-ba2c-9e3e2e69dbf3)
 
 ### Create Patient Observation Resource
-Select Create Observation from menu or navigate to below link to create Patient Resource
+Select Create Observation from the menu or navigate to the below link to create a Patient Resource
 Navigate to [http://localhost:32783/csp/fhirlab/createobs.csp](http://localhost:32783/csp/fhirlab/createobs.csp) to run the application
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/e5c3c1fa-9cb7-4877-8044-6a7ab9cd2c1e)
-Click Post Observation to create observation.
+Click Post Observation to create an observation.
 
-To view created observation, navigate to Patient Resources menu and select Patient ID then select Observation
+To view created observation, navigate to the Patient Resources menu and select Patient ID then select Observation
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/ecea0c81-70a7-4d7b-9fec-92358ec94b56)
 
 
 ### FHRI Sample data
-Two FHIR servers are added by default. You can Add/Remove FHIR server as well.
+Two FHIR servers are added by default. You can Add/Remove the FHIR server as well.
 FHIR sample data is imported already, To view Open Postman and make a GET call for the preloaded Patient:
 http://localhost:32783/csp/fhirserver/fhir/r4/Patient/3
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/e62ca528-c136-4e16-9c61-20fd05e5ce05)
