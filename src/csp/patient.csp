@@ -82,7 +82,11 @@
 							<a class="nav-link" href="/csp/fhirlab/resource.csp?resource=Patient"><i class="bi bi-person"></i> Patient Resources</a>
 						</li>
 							<li class="nav-item">
-							<a class="nav-link" href="/csp/fhirlab/create.csp"><i class="bi bi-plus-circle"></i> Create Resource</a>
+							<a class="nav-link" href="/csp/fhirlab/create.csp"><i class="bi bi-plus-circle"></i> Create Patient</a>
+						</li>
+                        </li>
+							<li class="nav-item">
+							<a class="nav-link" href="/csp/fhirlab/createobs.csp"><i class="bi bi-thermometer-half"></i> Create Observation</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="/csp/sys/%25CSP.Portal.Home.zen">Management Portal</a>
@@ -174,7 +178,7 @@
              <div class="col-lg-3 col-3  col-md-3" style="margin-top: 20px;border: 1px solid #ccc; padding: 10px;">
 			 	 <div class="nav nav-tabs" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         			<a class="nav-link active" id="tab1-tab" data-toggle="pill" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Resource Details</a>
-        			<a class="nav-link" id="tab2-tab" data-toggle="pill" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">JSON</a>
+        			<a class="nav-link" id="tab2-tab" data-toggle="pill" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">HL7 FHIR</a>
       			</div>     
       			   <!-- Tab Content -->
 				  <div class="tab-content" id="v-pills-tabContent">

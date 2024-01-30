@@ -2,6 +2,7 @@ Class dc.FhirLab.Client Extends %SwizzleObject
 {
 
 // init function invoked while initilizign container which add 2 detault servers (Intersystem/SmartHealthIT)
+
 ClassMethod Init() As %Integer
 {
 	if $DATA(^$GLOBAL("^FhirLabServer"))= 0 
@@ -42,11 +43,12 @@ ClassMethod Init() As %Integer
 			Quit "Error while creating server ID2"
 		}
 	}
-	//start the production
+	
 	Quit $$$OK
 }
 
-//Get resource details 
+// Get resource details 
+
 ClassMethod ResourceJSON(resourceName As %String, rowid As %String) As %String
 {
 	//Get Active Server data based on Global Variable 
@@ -64,7 +66,8 @@ ClassMethod ResourceJSON(resourceName As %String, rowid As %String) As %String
   	return data
 }
 
-//Python funtion to return resource details
+// Python funtion to return resource details
+
 ClassMethod ResourceJSONP(resourceName, rowid, url, apikey) [ Language = python ]
 {
 	import requests,json
@@ -77,7 +80,8 @@ ClassMethod ResourceJSONP(resourceName, rowid, url, apikey) [ Language = python 
 	return json.dumps(data, indent=4)
 }
 
-//Display FHIR resource in Human format
+// Display FHIR resource in Human format
+
 ClassMethod ResourceJSONHuman(resourceName As %String, rowid As %String) As %String
 {
 	//Get Active Server data based on Global Variable 
@@ -95,7 +99,8 @@ ClassMethod ResourceJSONHuman(resourceName As %String, rowid As %String) As %Str
   	return data
 }
 
-//Python function to Display FHIR resource in Human format
+// Python function to Display FHIR resource in Human format
+
 ClassMethod ResourceJSONHumanP(resourceName, rowid, url, apikey) [ Language = python ]
 {
 	import requests,json,human_json
@@ -108,9 +113,8 @@ ClassMethod ResourceJSONHumanP(resourceName, rowid, url, apikey) [ Language = py
 	return( human_json.to_human_json(data))
 }
 
-
-
 // Resigter server by using FhirServer persistent Class
+
 ClassMethod SaveServer(ServerName As %String, Endpoint As %String, ApiKey As %String = "", EndpointOAuth As %String = "") As %String
 {
 	//Create global fhirServer reference variable if not created
@@ -138,6 +142,7 @@ ClassMethod SaveServer(ServerName As %String, Endpoint As %String, ApiKey As %St
 }
 
 // Get Server List
+
 ClassMethod ServerList() As %Integer
 {
 
@@ -178,6 +183,7 @@ ClassMethod ServerList() As %Integer
 }
 
 // Get Server List. Used in CSP application
+
 ClassMethod GetServerList() As %String
 {
 
@@ -210,6 +216,7 @@ ClassMethod GetServerList() As %String
 }
 
 // Set Current FHIR Server
+
 ClassMethod SetFhirServer(serverid As %Integer) As %Status
 {
 	Set obj = ##class(dc.FhirLab.Server).%OpenId(serverid)
@@ -229,6 +236,7 @@ ClassMethod SetFhirServer(serverid As %Integer) As %Status
 }
 
 // Delete registered server
+
 ClassMethod DeleteServer(serverid As %Integer) As %Status
 {
 	Set obj = ##class(dc.FhirLab.Server).%OpenId(serverid)
@@ -247,7 +255,8 @@ ClassMethod DeleteServer(serverid As %Integer) As %Status
 	}
 }
 
-//Get FHIR server details based on ID
+// Get FHIR server details based on ID
+
 ClassMethod GetFhirServer(serverid As %Integer) As %String
 {
 	Set obj = ##class(dc.FhirLab.Server).%OpenId(serverid)
@@ -263,8 +272,8 @@ ClassMethod GetFhirServer(serverid As %Integer) As %String
 	}
 }
 
-
 // Method invoked from CSP Application to get Resource HTML
+
 ClassMethod GetResourceHTML(resource As %String, patid As %String) As %String
 {
 	//Get Active Server data based on Global Variable 
@@ -284,7 +293,8 @@ ClassMethod GetResourceHTML(resource As %String, patid As %String) As %String
   	return data
 }
 
-//Function will return FHIR server resources
+// Function will return FHIR server resources
+
 ClassMethod ListResources() As %String
 {
 	//Get Active Server data based on Global Variable 
@@ -304,7 +314,8 @@ ClassMethod ListResources() As %String
   	return ""
 }
 
-//Python Function will return FHIR server resources
+// Python Function will return FHIR server resources
+
 ClassMethod ListResourcesP(url As %String, apikey As %String) As %String [ Language = python ]
 {
 	import requests
@@ -326,7 +337,54 @@ ClassMethod ListResourcesP(url As %String, apikey As %String) As %String [ Langu
 		return "FHIR Server connection error"
 }
 
+// Patient list used in observation post pate
+
+ClassMethod GetPatResources() As %Status
+{
+	//Get Active Server data based on Global Variable 
+	Set obj = ##class(dc.FhirLab.Server).%OpenId(^FhirLabServer)
+	//If Url and ApiKey is defined
+	if $isobject(obj)  
+	{  
+	  //Call Embedded Python Function to get Number of Resources
+	  Set irisfhirlab = ##class(%SYS.Python).Import("irisfhirlab")
+	  Set data = ..GetPatResourcesP(obj.Endpoint,obj.ApiKey) 
+	}
+	//Active Server data is not defined
+  	else
+  	{ 
+  		Quit "Not able to get server Info.."
+  	}
+  	return data
+}
+
+ClassMethod GetPatResourcesP(url As %String, apikey As %String) As %String [ Language = python ]
+{
+	import requests
+	from fhirpy import SyncFHIRClient
+	contentType = "application/fhir+json"
+	data = ""    
+	if url[-1]!="/":
+		url=url+"/"
+	try:
+		cclient = SyncFHIRClient(url = url, extra_headers={"Content-Type":contentType,"x-api-key":apikey})
+		data = cclient.resources("Patient").fetch()            
+	except:
+		print("Connection Error")    
+
+	if len(data) == 0:   
+		return "No Record Found"
+
+	options = ""    
+	for rowval in data:
+		id = str(rowval.get('id'))
+		options = options + "<option value='"+id+"'>"+id+"-"+str(rowval.get_by_path('name.0.family'))+" "+str(rowval.get_by_path('name.0.given.0'))+"</option>"        
+
+	return options
+}
+
 // Function to create Patient resource
+
 ClassMethod CreatePatient(givenName As %String, familyName As %String, birthDate As %String, gender As %String) As %String
 {
 	//Get Active Server data based on Global Variable 
@@ -346,6 +404,7 @@ ClassMethod CreatePatient(givenName As %String, familyName As %String, birthDate
 }
 
 // Python Function to create Patient resource
+
 ClassMethod CreatePatientP(givenName As %String, familyName As %String, birthDate As %String, gender As %String, url As %String, apikey As %String) As %String [ Language = python ]
 {
 	import requests
@@ -372,23 +431,85 @@ ClassMethod CreatePatientP(givenName As %String, familyName As %String, birthDat
 }
 
 // Function to create Patient observations
-ClassMethod CreateObservation(patientId As %String, loincCode As %String, ObrCategory As %String, ObrValue As %Integer, ObrUOM As %String, effectiveDate As %String)
+
+ClassMethod CreateObservation(patientId As %String, loincCode As %String, ObrCategory As %String, ObrValue As %Integer, ObrUOM As %String, effectiveDate As %String) As %String
 {
+	
+	
+	//Update FHIRServer Service Config Name if not updated
+	// Change namespace
+    ZN "FHIRSERVER"
+	set cspApp = ##class(HS.Util.RESTCSPConfig).URLIndexOpen("/csp/fhirserver/fhir/r4")
+    if cspApp.ServiceConfigName '= "HS.FHIRServer.Interop.Service" 
+	{
+		set cspApp.ServiceConfigName = "HS.FHIRServer.Interop.Service" 
+		set status = cspApp.%Save()
+		//start the production
+    	set status = ##class(FHIRLAB.FoundationProduction).Start()
+	}
+    ZN "USER"
+	
 	
 	//Get Active Server data based on Global Variable 
 	Set obj = ##class(dc.FhirLab.Server).%OpenId(^FhirLabServer)
 	//If Url and ApiKey is defined
 	if $isobject(obj)  
 	{  
-	//Call Embedded Python Function to get Number of Resources
-	Set irisfhirlab = ##class(%SYS.Python).Import("irisfhirlab")
-	set data = irisfhirlab.CreateObservation(patientId,loincCode,ObrCategory,ObrValue,ObrUOM,effectiveDate,obj.Endpoint,obj.ApiKey) 
+		//Call Embedded Python Function to get Number of Resources
+		set data = ..CreateObservationP(patientId,loincCode,ObrCategory,$NUMBER(ObrValue),ObrUOM,effectiveDate,obj.Endpoint,obj.ApiKey) 
+		return data
 	}
 	//Active Server data is not defined
 	else
 	{ 
-	Quit "Not able to get server Info.."
+	return "Not able to get server Info.."
 	}
+}
+
+// Python Function to create Patient observations
+
+ClassMethod CreateObservationP(patientId As %String, loincCode As %String, ObrCategory As %String, ObrValue As %Integer, ObrUOM As %String, effectiveDate As %String, url As %String, apiKey As %String) As %String [ Language = python ]
+{
+
+	import requests
+	from fhirpy import SyncFHIRClient
+	contentType = "application/fhir+json"
+	headers = {"Content-Type":contentType,"x-api-key":apiKey}
+	client = SyncFHIRClient(url = url, extra_headers=headers)
+	observation = client.resource(
+	'Observation',
+	status='preliminary',	
+	category=[{
+	 'coding': [{
+            'system': 'http://hl7.org/fhir/observation-category',
+            'code': ObrCategory
+        }]
+    }],
+    code={
+        'coding': [{
+            'system': 'http://loinc.org',
+            'code': loincCode
+        }]
+    })
+	observation['effectiveDateTime'] = effectiveDate
+
+	observation['valueQuantity'] = {
+    'system': 'http://unitsofmeasure.org',
+    'value': ObrValue,
+    'code': ObrUOM
+	}
+	
+    #find the patient
+	patient = client.resources('Patient').search(_id=patientId).first()
+	observation['subject'] = patient.to_reference()
+
+	try:
+		observation.save()
+	except Exception as e:
+		return "Error while creating observation :"+ str(e)       
+		
+
+	return "Patient Observation Created Successfully"
 }
 
 }

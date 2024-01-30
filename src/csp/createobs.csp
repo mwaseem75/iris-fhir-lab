@@ -73,7 +73,7 @@
 
   
    <div class="container-fluid">
-            <!-- NavBar -->
+        <!-- NavBar -->
             <nav class="navbar navbar-header navbar-expand-lg app-bg-color">               
                     <ul class="nav nav-pills">
                        		<li class="nav-item">
@@ -111,7 +111,7 @@
                     <div class="col-md-8 vertical-center">
                         <!-- /.widget-user-image -->
                         <h3  style="margin-left: 0" class="widget-user-username bg-ion ">
-                            Creation of Patient Resource from data entry
+                            Creation of Observation Resource from data entry
                         </h3>                                        
                     </div>
                 </div>            
@@ -128,42 +128,53 @@
                                  
                                 <div class="widget-user-header" style="padding:0.5rem; margin-left: 0px;">                                    
                                     <!-- /.widget-user-image -->
-                                    <h3 class="text-center">  Patient Resource details</h3>
+                                    <h3 class="text-center">  Observation Resource details</h3>
                                 </div>     
                                 <div class="table-responsive">									
                                     <form>
-                                            <div class="mb-3">
-                                                <label for="givenName" class="form-label">Given Name:</label>
-                                                <input type="text" class="form-control" id="givenName" name="givenName" required onchange="handleInputChange()">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="familyName" class="form-label">Family Name:</label>
-                                                <input type="text" class="form-control" id="familyName" name="familyName" required onchange="handleInputChange()">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="birthDate" class="form-label">Birth Date:</label>
-                                                <input type="date" class="form-control" id="birthDate" name="birthDate" required onchange="handleInputChange()">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="gender" class="form-label">Gender:</label>
-                                                <select class="form-select" id="gender" name="gender" required onchange="handleInputChange()">
-                                                <option value="">Select a gender</option>
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                                <option value="other">Other</option>
+                                    
+                                     	    <div class="form-group">
+                                                <label for="pat" class="form-label">Select Patient:</label>
+                                                <select class="form-control" id="pat" name="pat" required onchange="handleInputChange()">
+                                                <option value="">Select Patient</option>
+                                                #(..GetPatResources())#
                                                 </select>
                                             </div>
-                                
+                                            
+                                            <div class="form-group">
+                                                <label for="cat" class="form-label">Select Category:</label>
+                                                <select class="form-control" id="cat" name="cat" required onchange="handleInputChange()">
+                                                <option value="">Select Category</option>
+                                                <option>vital-signs</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="code" class="form-label">Select Code:</label>
+                                                <select class="form-control" id="code" name="code" required onchange="handleInputChange()">
+                                                <option value="">Select loinc Code</option>
+                                                <option value='8310-5'>8310-5 - Body temperature</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <b>Value = <span id="output"></span> degF</b>
+                                            <label for="degF">(between 97.5 and 99.3%): </label>
+											<input type="range" id="degF" name="degF" step="0.1" min="97.5" max="99.3">
+									 	                                              
+                                            <div class="form-group">
+                                                <label for="effdate" class="form-label">Effective Date:</label>
+                                                <input type="date" class="form-control" id="effdate" name="effdate" required onchange="handleInputChange()">
+                                            </div>
+                                          
                                     </form>
                                 </div>       
                                 <div class="modal-footer">
-                                    <button type="button" id = "postbtn" class="btn btn-primary" onclick="saveResource()"> <i class="bi bi-plus-circle"> </i> Post Resource</button>        
+                                    <button type="button" id = "postbtn" class="btn btn-primary" onclick="saveResource()"> <i class="bi bi-plus-circle"> </i> Post Observation</button>        
                                 </div>                      
                            </div>                                                               
                     </div>     
                 </div>                  
-            </div>  <!-- Col lg 8 -->
-            
+            </div>  <!-- Col lg 8 -->          
                         
              <div class="col-lg-4 col-4  col-md-4" style="margin-top: 20px;border: 1px solid #ccc; padding: 10px;">
 			 	 <div class="nav nav-tabs" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -199,52 +210,98 @@
                       
 			function handleInputChange() {
             // Your JavaScript code here
-            var givenName = document.getElementById('givenName').value;
-            var familyName = document.getElementById('familyName').value;
-            var birthDate = document.getElementById('birthDate').value;
-            var gender = document.getElementById('gender').value;              
+            var pat = document.getElementById('pat').value;
+            var cat = document.getElementById('cat').value;
+            var code = document.getElementById('code').value;
+            var degF = document.getElementById('degF').value;              
+            var effDate = document.getElementById('effdate').value;              
            
-			let patientResource = {};
-			patientResource.resourceType = "Patient";
+			let observationResource = {};
+			observationResource.resourceType = "Observation";
+			observationResource.status='preliminary'	
 			
-			if (givenName || familyName){											
-			let name = [{
-			  "use": "official",
-			  "family": familyName,
-			  "given": [givenName]
-			}];
-			patientResource.name = name
-			}
-			if (gender) {patientResource.gender = gender }
-			if (birthDate) {patientResource.birthDate = birthDate }		
+			
+			if (cat){
+			let cata=[{
+	 		'coding': [{
+            	'system': 'http://hl7.org/fhir/observation-category',
+            	'code': cat
+        		}]
+    		}]    		
+    		observationResource.category = cata
+    		};
+    		
+    		if (code){
+			let codea={
+	 		'coding': [{
+            	'system': 'http://loinc.org',
+            	'code': code
+        		}]
+    		}
+    			observationResource.code = codea
+			};			
+			
+		    if (degF){
+			    
+			 let val={	 		
+            	'system': 'http://unitsofmeasure.org',
+            	'value' : Number(degF),
+            	'code': 'degF'        		
+    		   }			    
+    		   observationResource.valueQuantity = val
+			 };
+		   	
+		   	if (pat){
+			let ref={
+	 		'reference': 'Patient/'+pat	 				
+    		}
+    		observationResource.subject = ref 		
+		   	}
+			if (effDate) {observationResource['effectiveDateTime'] = effDate }		
 			
             var myElementJson = document.getElementById("jsondtl");
-            myElementJson.innerHTML = JSON.stringify(patientResource, null, 4);                            
+            myElementJson.innerHTML = JSON.stringify(observationResource, null, 4);                            
             
         	}       
+        	
+        	
+        	var slider = document.getElementById("degF");
+    		var output = document.getElementById("output");
+    		output.innerHTML = slider.value;
+    		
+    		slider.oninput = function() {
+     		   output.innerHTML = this.value;
+    		}
        
        	 function saveResource() {
-	      var givenName = document.getElementById('givenName').value;
-          var familyName = document.getElementById('familyName').value;
-          var birthDate = document.getElementById('birthDate').value;
-          var gender = document.getElementById('gender').value;       		 	      	       	       	 		 
-       	  if (!givenName.trim()) {
-       		 alert('Please enter Patient Given name first.');
+	      var pat = document.getElementById('pat').value;
+          var cat = document.getElementById('cat').value;
+          var code = document.getElementById('code').value;
+          var degF = document.getElementById('degF').value;              
+          var effDate = document.getElementById('effdate').value;              
+           	      	       	       	 		 
+       	  if (!pat.trim()) {
+       		 alert('Please select Patient first.');
+        	 return;
+          }		 
+		  if (!cat.trim()) {
+       		 alert('Please select Category first.');
         	 return;
           }
-		  if (!familyName.trim()) {
-       		 alert('Please enter Patient Family name first.');
+          if (!code.trim()) {
+       		 alert('Please select Code first.');
         	 return;
           }
-          if (!birthDate.trim()) {
-       		 alert('Please enter Birth Date first.');
+          if (!degF.trim()) {
+       		 alert('Please select value first.');
         	 return;
           }
-          if (!gender.trim()) {
-       		 alert('Please enter Gender first.');
+          if (!effDate.trim()) {
+       		 alert('Please select Effective Date first.');
         	 return;
           }
-		  var val =  #server(..CreatePatient(givenName,familyName,birthDate,gender))#; 	
+          
+		  var val =  #server(..CreateObservation(pat,code,cat,degF,"degF",effDate))#; 	
 		  alert(val)	
 	      window.location.reload();		 
      }

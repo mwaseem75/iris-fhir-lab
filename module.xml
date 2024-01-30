@@ -10,8 +10,9 @@
     <SourcesRoot>src</SourcesRoot>
     <Resource Name="dc.PKG"/>
     <FileCopy Name="python/" Target="${mgrdir}python/"/>   
+
     <Invoke Class="dc.FhirLab.Client" Method="Init"></Invoke>
-    
+   
       <CSPApplication
         Url="/csp/fhirlab"
         Path="/src/csp"

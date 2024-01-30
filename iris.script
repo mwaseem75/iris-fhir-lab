@@ -28,7 +28,7 @@
     Do $System.OBJ.LoadDir("/opt/irisapp/src","ck",,1)
    
     //Update FHIRServer Service Config Name
-    //set cspApp = ##class(HS.Util.RESTCSPConfig).URLIndexOpen(appKey)
+    //set cspApp = ##class(HS.Util.RESTCSPConfig).URLIndexOpen("/csp/fhirserver/fhir/r4")
     //set cspApp.ServiceConfigName = "HS.FHIRServer.Interop.Service"
     //set status = cspApp.%Save()
     //$$$ThrowOnError(status)
