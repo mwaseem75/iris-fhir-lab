@@ -6,9 +6,6 @@ IRIS-FHIR-Lab is a web application that connects to FHIR server, get and list al
 ## Application Layout
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/614f1ce7-c708-44fe-8e2e-5fa7e0f92f0a)
 
-
-
-
 ## Online Demo
 https://irisfhirlab.demo.community.intersystems.com/csp/fhirlab/index.csp by using SuperUser | SYS
 
@@ -95,11 +92,13 @@ Transformation is utilizing FHIRRouter ->  FHIR_SDA -> SDA_HL7 Processes to conv
 [FHIR API](http://hl7.org/fhir/resourcelist.html)
 [Developer Community FHIR section](https://community.intersystems.com/tags/fhir)
 
-### FHRI Sample data
+## FHRI Sample data
 Two FHIR servers are added by default. You can Add/Remove the FHIR server as well.
 FHIR sample data is imported already, To view Open Postman and make a GET call for the preloaded Patient:
 http://localhost:32783/csp/fhirserver/fhir/r4/Patient/3
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/e62ca528-c136-4e16-9c61-20fd05e5ce05)
 
+## Special Thanks to:
+Guillaume Rongier for: [iris-healthtoolkit-service](https://openexchange.intersystems.com/package/iris-healthtoolkit-service) template for guidance
 
 Thanks
