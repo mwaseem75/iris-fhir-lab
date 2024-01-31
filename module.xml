@@ -12,7 +12,9 @@
     <FileCopy Name="python/" Target="${mgrdir}python/"/>   
 
     <Invoke Class="dc.FhirLab.Client" Method="Init"></Invoke>
-   
+    <Invoke Class="Ens.Director" Method="SetAutoStart">
+         <Arg>FHIRLAB.FoundationProduction</Arg>
+    </Invoke>
       <CSPApplication
         Url="/csp/fhirlab"
         Path="/src/csp"

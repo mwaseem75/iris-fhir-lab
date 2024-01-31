@@ -49,8 +49,11 @@
     	table {
     width: 100%;
     border-collapse: collapse;
+    
   }
-
+    .custom-width {
+    max-width: 900px; /* Adjust the width as needed */
+    }
   app-right-align {
     text-align: right;
     border: 1px solid #ddd; /* Optional: Add border for better visualization */
@@ -68,6 +71,7 @@
 	set resource1 = $Get(%request.Data("resource",1),"")  		
 </script>
   <input type="hidden" id="hiddenInput" value=#(resource1)#>
+  <input type="hidden" id="ResID" value="">
   
    <div class="container-fluid">
             <!-- NavBar -->
@@ -90,7 +94,7 @@
 							<a class="nav-link" href="/csp/sys/%25CSP.Portal.Home.zen">Management Portal</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/csp/healthshare/fhirserver/EnsPortal.ProductionConfig.zen?$NAMESPACE=FHIRSERVER&$NAMESPACE=FHIRSERVER&">Production</a>
+							<a class="nav-link" href="/csp/healthshare/fhirserver/EnsPortal.ProductionConfig.zen?PRODUCTION=FHIRLAB.FoundationProduction">Production</a>
 						</li>						
 						<li class="nav-item">
 							<a class="nav-link" href="https://www.hl7.org/fhir/">FHIR Official website</a>
@@ -183,7 +187,7 @@
 				      <pre id ="sourcedtl" ></pre>
 				    </div>
 				    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
-				      
+				      <button type="button" id = "transform" style = "display : none" class="btn btn-primary"  onclick="fhirtov2()"> Transform FHIR to HL7 V2 </button>
 				      <pre id="jsondtl"></pre>
 				    </div>
 				  </div>
@@ -223,6 +227,28 @@
         </div>
         </div>
 
+        </div>
+        </div>
+        <!-- Transform dialog -->
+        <div class="modal fade" id="transformModal" tabindex="-1" role="dialog" aria-labelledby="serverModalLabel" aria-hidden="true">
+        <div class="modal-dialog custom-width" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="serverModalLabel">FHIR to HL7 V2 Transformation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            
+                <pre id="hl7"></pre>
+            
+        </form>
+            </div>
+            <div class="modal-footer">      
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
+            </div>
+            </div>
         </div>
         </div>
         <!--   Core JS Files   -->
@@ -270,13 +296,30 @@
 			    var myElement = document.getElementById("sourcedtl");
 			    var myElementJson = document.getElementById("jsondtl");
 			    var resourceName = document.getElementById("hiddenInput").value;				  
+                var resID = document.getElementById("ResID");				  
+                resID.value = rowId
 			    if (myElement) {   
 			    	myElement.innerHTML = #server(..ResourceJSONHuman(resourceName,rowId))#;
 			    	myElementJson.innerHTML = #server(..ResourceJSON(resourceName,rowId))#;
- 					 }			   
-			    // You can also perform other actions or call additional functions here
+			    	if (resourceName == "Patient") {
+				    	//only display button in case of patient resource
+				    	var button = document.getElementById('transform');
+				    	button.style.display = 'block';
+			    	}
+				    else
+				    {
+					    button.style.display = 'none';   				    	
+				    	}
+ 					 }			   			    
 			  }
        
+            function fhirtov2(){	       		
+	       		var myElement = document.getElementById("hl7");
+                var resourceName = document.getElementById("hiddenInput").value;	
+                var rowId = document.getElementById("ResID").value;
+	       		myElement.innerHTML = #server(..TransformHL7(resourceName,rowId))#;
+	       		$('#transformModal').modal('show');}
+
         	function filterList() {
 				var input, filter, ul, li, i, txtValue;
 				input = document.getElementById('search');

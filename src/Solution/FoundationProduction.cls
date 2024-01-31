@@ -8,15 +8,21 @@ XData ProductionDefinition
   <ActorPoolSize>1</ActorPoolSize>
 
   <Item Name="HS.FHIRServer.Interop.Service" Category="" ClassName="HS.FHIRServer.Interop.Service" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="TargetConfigName">FHIRLAB.FHIRBPL</Setting>
+    <Setting Target="Host" Name="TargetConfigName">FHIRRouter</Setting>
   </Item>
-  <Item Name="FHIRLAB.FHIRBPL" Category="" ClassName="FHIRLAB.FHIRBPL" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  <Item Name="FHIRRouter" Category="" ClassName="Solution.BP.FHIRRouter" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  </Item>
+  <Item Name="FHIR_SDA" Category="" ClassName="Solution.BP.Process" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="TargetConfigName">SDA_HL7</Setting>
+    <Setting Target="Host" Name="FHIRMetadataSet">HL7v40 / Base HL7 Metadata for FHIR R4 (4.0.1)</Setting>
   </Item>
   <Item Name="HS.FHIRServer.Interop.Operation" Category="" ClassName="HS.FHIRServer.Interop.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>   
+  <Item Name="FHIR_Local_Operation" Category="" ClassName="HS.FHIRServer.Interop.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
-  <Item Name="To_Scheduling" Category="" ClassName="EnsLib.HL7.Operation.FileOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Adapter" Name="FilePath">/home/project/shared/Samples-FHIR-Oximeter-Devices/Out/</Setting>
-    <Setting Target="Host" Name="Filename">%f_%Q%!+(_a)</Setting>
+  <Item Name="SDA_HL7" Category="" ClassName="Solution.BP.SDATransformProcess" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="TargetConfigName"></Setting>
+    <Setting Target="Host" Name="TraceOperations">*FULL*</Setting>
   </Item>
 </Production>
 }

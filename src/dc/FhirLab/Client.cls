@@ -113,6 +113,47 @@ ClassMethod ResourceJSONHumanP(resourceName, rowid, url, apikey) [ Language = py
 	return( human_json.to_human_json(data))
 }
 
+ClassMethod TransformHL7(resourceName As %String, rowid As %String) As %String
+{
+	//Get Active Server data based on Global Variable 
+	Set obj = ##class(dc.FhirLab.Server).%OpenId(^FhirLabServer)
+	//If Url and ApiKey is defined
+	if $isobject(obj)  
+	{ 	  
+	  Set data = ..TransformHL7P(resourceName,rowid,obj.Endpoint,obj.ApiKey) 
+	}
+	//Active Server data is not defined
+  	else
+  	{ 
+  		Quit "Not able to get server Info.."
+  	}
+  	return data
+}
+
+// Transform FHIR to HL7 V2
+
+ClassMethod TransformHL7P(resourceName, rowid, url, apikey) [ Language = python ]
+{
+	import requests,json
+	contentType = "application/fhir+json"
+	headers = {"Content-Type":contentType,"x-api-key":apikey}
+	if url[-1]!="/":
+		url=url+"/"
+	aa = url+resourceName+"/"+rowid
+	x = requests.get(aa,headers=headers)
+
+	data =x.json()	 
+	json_string = json.dumps(data)
+
+	json_string = "{\"resourceType\": \"Bundle\",\"type\": \"transaction\",\"entry\": [{ \"resource\":" + json_string + '}]}'
+
+	data =  json.loads(json_string)
+
+	response = requests.post(url+resourceName+"/hl7", json=data, headers=headers)
+	
+	return response.content
+}
+
 // Resigter server by using FhirServer persistent Class
 
 ClassMethod SaveServer(ServerName As %String, Endpoint As %String, ApiKey As %String = "", EndpointOAuth As %String = "") As %String
@@ -304,6 +345,15 @@ ClassMethod ListResources() As %String
 	{  
 	  
 	  set resources =  ..ListResourcesP(obj.Endpoint,obj.ApiKey)
+	  if resources = "FHIR Server connection error"
+	  {
+		// Change namespace
+		ZN "FHIRSERVER"
+		//start the production
+		set status = ##class(FHIRLAB.FoundationProduction).Start()
+		ZN "USER"
+		set resources =  ..ListResourcesP(obj.Endpoint,obj.ApiKey)
+	  }
 	  return resources
 	}
 	//Active Server data is not defined
@@ -435,21 +485,7 @@ ClassMethod CreatePatientP(givenName As %String, familyName As %String, birthDat
 ClassMethod CreateObservation(patientId As %String, loincCode As %String, ObrCategory As %String, ObrValue As %Integer, ObrUOM As %String, effectiveDate As %String) As %String
 {
 	
-	
-	//Update FHIRServer Service Config Name if not updated
-	// Change namespace
-    ZN "FHIRSERVER"
-	set cspApp = ##class(HS.Util.RESTCSPConfig).URLIndexOpen("/csp/fhirserver/fhir/r4")
-    if cspApp.ServiceConfigName '= "HS.FHIRServer.Interop.Service" 
-	{
-		set cspApp.ServiceConfigName = "HS.FHIRServer.Interop.Service" 
-		set status = cspApp.%Save()
-		//start the production
-    	set status = ##class(FHIRLAB.FoundationProduction).Start()
-	}
-    ZN "USER"
-	
-	
+		
 	//Get Active Server data based on Global Variable 
 	Set obj = ##class(dc.FhirLab.Server).%OpenId(^FhirLabServer)
 	//If Url and ApiKey is defined
