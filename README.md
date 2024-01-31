@@ -1,5 +1,5 @@
 # Summary
-IRIS-FHIR-Lab is a web application that connects to FHIR server, get and list all the resources, dynamically list down resource details and display FHIR resource details both in JSON and human-readable format. Application also has a functionality to Create Patient and Patient observations.
+IRIS-FHIR-Lab is a web application that connects to FHIR server, get and list all the resources, dynamically list down resource details and display FHIR resource details both in JSON and human-readable format. The application also has the functionality to Create Patient/Patient observation resources and to transform FHIR messages to HL7 V2.
 
 [![one](https://img.shields.io/badge/Platform-InterSystems%20IRIS-blue)](https://www.intersystems.com/data-platform/) [![one](https://img.shields.io/badge/WebFrameWork-CSP-Orange)](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=GCSP) [![one](https://img.shields.io/badge/Interoperability-HL7%20FHIR-yellow)](https://www.hl7.org/fhir/) [![one](https://img.shields.io/badge/Python%20Library-fhirpy-Maroon)](https://pypi.org/project/fhirpy/) [![OEX](https://img.shields.io/badge/Available%20on-Intersystems%20Open%20Exchange-00b2a9.svg)]() [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/mwaseem75/iris-fhir-lab/blob/main/LICENSE)
 
@@ -17,6 +17,7 @@ https://irisfhirlab.demo.community.intersystems.com/csp/fhirlab/index.csp by usi
 * Dynamically get the list of all FHIR resources
 * View full details of the resources in JSON and Human readable format
 * View Patient related resources
+* Transform FHIR messages to HL7 V2.
 * Post basic Patient resources.
 * Post Patient Observation resources.
 
@@ -78,6 +79,21 @@ Click Post Observation to create an observation.
 To view created observation, navigate to the Patient Resources menu and select Patient ID then select Observation
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/ecea0c81-70a7-4d7b-9fec-92358ec94b56)
 
+## FHIR to HL7 V2 transformation
+Select the Patient Resource, then select the FHIR tab and click on the "Transform FHIR to HL7 V2" button.
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/3fefe2b9-fee2-45b6-9d93-c5e584822248)
+
+Application will get the transformation message HL7 V2 with the help of FHIR Server production.
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/361122b0-5559-4234-be2e-5a9e81de3a6c)
+
+Transformation is utilizing FHIRRouter ->  FHIR_SDA -> SDA_HL7 Processes to convert FHIR message to HL7 V2 message 
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/44abbfb0-e29e-4103-8d2c-446400acb730)
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/c4cd6f6f-94c5-40da-9213-6698e67e0709)
+
+## Development Resources
+[InterSystems IRIS FHIR Documentation](https://docs.intersystems.com/irisforhealth20203/csp/docbook/Doc.View.cls?KEY=HXFHIR)
+[FHIR API](http://hl7.org/fhir/resourcelist.html)
+[Developer Community FHIR section](https://community.intersystems.com/tags/fhir)
 
 ### FHRI Sample data
 Two FHIR servers are added by default. You can Add/Remove the FHIR server as well.
@@ -85,11 +101,5 @@ FHIR sample data is imported already, To view Open Postman and make a GET call f
 http://localhost:32783/csp/fhirserver/fhir/r4/Patient/3
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/e62ca528-c136-4e16-9c61-20fd05e5ce05)
 
-
-
-## Development Resources
-[InterSystems IRIS FHIR Documentation](https://docs.intersystems.com/irisforhealth20203/csp/docbook/Doc.View.cls?KEY=HXFHIR)
-[FHIR API](http://hl7.org/fhir/resourcelist.html)
-[Developer Community FHIR section](https://community.intersystems.com/tags/fhir)
 
 Thanks
