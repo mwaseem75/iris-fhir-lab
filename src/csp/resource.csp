@@ -183,7 +183,7 @@
       			   <!-- Tab Content -->
 				  <div class="tab-content" id="v-pills-tabContent">
 				    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
-				      
+				      <button type="button" id = "transform2" style = "display : none" class="btn btn-primary"  onclick="fhirtov2()"> Transform FHIR to HL7 V2 </button>
 				      <pre id ="sourcedtl" ></pre>
 				    </div>
 				    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
@@ -304,11 +304,14 @@
 			    	if (resourceName == "Patient") {
 				    	//only display button in case of patient resource
 				    	var button = document.getElementById('transform');
+                        var button1 = document.getElementById('transform2');
 				    	button.style.display = 'block';
+                        button1.style.display = 'block';
 			    	}
 				    else
 				    {
 					    button.style.display = 'none';   				    	
+                        button1.style.display = 'none';   				    	
 				    	}
  					 }			   			    
 			  }
