@@ -77,7 +77,7 @@ To view created observation, navigate to the Patient Resources menu and select P
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/ecea0c81-70a7-4d7b-9fec-92358ec94b56)
 
 ## FHIR to HL7 V2 transformation
-Select the Patient Resource, then select the FHIR tab and click on the "Transform FHIR to HL7 V2" button.
+Select the Patient Resource, then select the FHIR HL7 tab or Resource detail tab and click on the "Transform FHIR to HL7 V2" button.
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/3fefe2b9-fee2-45b6-9d93-c5e584822248)
 
 Application will get the transformation message HL7 V2 with the help of FHIR Server production.
