@@ -50,10 +50,28 @@ Navigate to [http://localhost:32783/csp/fhirlab/index.csp](http://localhost:3278
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/c5b861ee-4b93-4471-b682-77a086c069fe)
 
 
+### Add/Remove any Open FHIR Server
+As part of the default setup, two servers are pre-configured with the below configuration:
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/e57f59b6-129a-4886-9f70-228efd8b9c10)
+
+However, to add other open FHIR Server, click on the add server button
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/cab8131f-1a67-4f49-a464-25d4184dd9e2)
+
+Enter the information and select the add server button
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/f5f56ae7-7189-46c8-9a33-35cc19ce22df)
+
+To Remove the server just click on the Delete link
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/e2b08927-465f-4393-8e8a-3c7ae51653f8)
+after the confirmation the server will be deleted
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/24767167-743f-45c5-b609-68c31151faf1)
+
 ### View Resources
-Click on the Resources List to view Resource records and further clink on the record to view JSON and Human readable details of selected Resource
+Click on the Resources List to view Resource records of connected FHIR Server and further clink on the record itself to view JSON and Human readable details of selected Resource
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/9d0d10df-3693-4818-b60f-618ad488d578)
 
+### Search Resources
+To search, type resource in the search field
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/8903a73b-9558-4700-bde6-557bfc92d923)
 
 
 ### View Patient Resources
