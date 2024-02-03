@@ -58,16 +58,16 @@ However, to add other open FHIR Server, click on the add server button
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/cab8131f-1a67-4f49-a464-25d4184dd9e2)
 
 Enter the information and select the add server button
-![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/f5f56ae7-7189-46c8-9a33-35cc19ce22df)
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/7e9c12bd-6878-4b51-bcba-700bea4de58f)
 
 To Remove the server just click on the Delete link
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/e2b08927-465f-4393-8e8a-3c7ae51653f8)
-after the confirmation the server will be deleted
+after the confirmation, the server will be deleted
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/24767167-743f-45c5-b609-68c31151faf1)
 
 ### View Resources
 Click on the Resources List to view Resource records of connected FHIR Server and further clink on the record itself to view JSON and Human readable details of selected Resource
-![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/9926417f-ae01-4b36-b761-4aff9db19253)
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/751d7d05-e9e5-4b3d-a7b1-a2c939cc826e)
 
 
 ### Search Resources
@@ -86,7 +86,7 @@ The system will list patent-related resources
 ### Create Patient Resource
 Select Create Resource from the menu, enter patient information, and click the post resource button 
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/ce7809da-e2af-4bb4-ba2c-9e3e2e69dbf3)
-Below Patient resource is created 
+To view the added patient resource, click on the Patient Resources menu
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/10e9e7cd-bac9-42d1-ac39-d8d65203a0a3)
 
 ### Create Patient Observation Resource
