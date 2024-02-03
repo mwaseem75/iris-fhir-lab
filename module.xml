@@ -3,12 +3,13 @@
   <Document name="iris-fhir-lab.ZPM">
     <Module>
       <Name>iris-fhir-lab</Name>
-      <Version>1.0.2</Version>
+      <Version>1.0.3</Version>
       <Description>InterSystems FHIR LAB to View FHIR resources</Description>
       <Keywords>FHIR,Server</Keywords>
       <Packaging>module</Packaging>
     <SourcesRoot>src</SourcesRoot>
     <Resource Name="dc.PKG"/>
+    <Resource Name="Solution.PKG"/>
     <FileCopy Name="python/" Target="${mgrdir}python/"/>   
     <Invoke Class="dc.FhirLab.Client" Method="Init"></Invoke>
       <CSPApplication

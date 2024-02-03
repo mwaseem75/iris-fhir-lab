@@ -36,7 +36,6 @@
     zw ##class(HS.FHIRServer.Tools.DataLoader).SubmitResourceFiles("/opt/irisapp/src/fhirdata", "FHIRSERVER", appKey)
    
     Do $System.OBJ.LoadDir("/opt/irisapp/src","ck",,1)
-
-    zn "USER"
+    zn namespace
     zpm "load /opt/irisapp/ -v":1:1
     halt
