@@ -67,7 +67,8 @@ after the confirmation the server will be deleted
 
 ### View Resources
 Click on the Resources List to view Resource records of connected FHIR Server and further clink on the record itself to view JSON and Human readable details of selected Resource
-![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/9d0d10df-3693-4818-b60f-618ad488d578)
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/9926417f-ae01-4b36-b761-4aff9db19253)
+
 
 ### Search Resources
 To search, type resource in the search field
@@ -75,21 +76,22 @@ To search, type resource in the search field
 
 
 ### View Patient Resources
-Select Patient from the main page or navigate to the below link to view patient-related resources
-Navigate to [http://localhost:32783/csp/fhirlab/index.csp](http://localhost:32783/csp/fhirlab/patient.csp) to run the application
-![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/6279a4e6-1a7d-4374-ae3f-bb4b3f47a96c)
+Click on the Patient resource and then click on patient ID in the patient resource detail list
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/83e87290-bfba-4265-80be-24aacbdccccf)
+The system will list patent-related resources
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/c9473e71-7bb2-4e5c-ac2e-641dd6be92b7)
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/afc398a4-18d6-46cf-abda-e8748274a64c)
 
 
 ### Create Patient Resource
-Select Create Resource from the menu or navigate to the below link to create a Patient Resource
-Navigate to [http://localhost:32783/csp/fhirlab/create.csp](http://localhost:32783/csp/fhirlab/create.csp) to run the application
+Select Create Resource from the menu, enter patient information, and click the post resource button 
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/ce7809da-e2af-4bb4-ba2c-9e3e2e69dbf3)
+Below Patient resource is created 
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/10e9e7cd-bac9-42d1-ac39-d8d65203a0a3)
 
 ### Create Patient Observation Resource
-Select Create Observation from the menu or navigate to the below link to create a Patient Resource
-Navigate to [http://localhost:32783/csp/fhirlab/createobs.csp](http://localhost:32783/csp/fhirlab/createobs.csp) to run the application
+Select Create Observation from the menu and enter observation resource data, Click Post Observation to create an observation
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/e5c3c1fa-9cb7-4877-8044-6a7ab9cd2c1e)
-Click Post Observation to create an observation.
 
 To view created observation, navigate to the Patient Resources menu and select Patient ID then select Observation
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/ecea0c81-70a7-4d7b-9fec-92358ec94b56)
@@ -101,8 +103,18 @@ Select the Patient Resource, then select the FHIR HL7 tab or Resource detail tab
 Application will get the transformation message HL7 V2 with the help of FHIR Server production.
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/361122b0-5559-4234-be2e-5a9e81de3a6c)
 
-Transformation is utilizing FHIRRouter ->  FHIR_SDA -> SDA_HL7 Processes to convert FHIR message to HL7 V2 message 
+Transformation is utilizing IRIS Digital Health Interoperability to convert the FHIR message to the HL7 V2 message.
+
+HS.FHIRServer.Interop.Service Business Service sends FHIR message to the FHIRRouter business process,
+FHIRRouter business process sends FHIR message to the FHIR_SDA business process,
+FHIR_SDA business process sends SDA message to the SDA_HL7 business process which finally converts SDA message to HL7 V2 message. 
+
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/44abbfb0-e29e-4103-8d2c-446400acb730)
+
+FHIRRouter Business Process
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/a0727f12-e7a6-4608-8544-493c6f2ee70f)
+
+Visual Trace
 ![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/c4cd6f6f-94c5-40da-9213-6698e67e0709)
 
 ## Development Resources
