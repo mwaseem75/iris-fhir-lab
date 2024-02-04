@@ -1,9 +1,9 @@
-Class FHIRLAB.FoundationProduction Extends Ens.Production [ Not ProcedureBlock ]
+Class SolutionPRD.FoundationProduction Extends Ens.Production [ Not ProcedureBlock ]
 {
 
 XData ProductionDefinition
 {
-<Production Name="FHIRNAMESPACEPKG.FoundationProduction" TestingEnabled="true" LogGeneralTraceEvents="true">
+<Production Name="SolutionPRD.FoundationProduction" TestingEnabled="true" LogGeneralTraceEvents="true">
   <Description></Description>
   <ActorPoolSize>1</ActorPoolSize>
 

@@ -345,15 +345,7 @@ ClassMethod ListResources() As %String
 	{  
 	  
 	  set resources =  ..ListResourcesP(obj.Endpoint,obj.ApiKey)
-	  if resources = "FHIR Server connection error"
-	  {
-		// Change namespace
-		ZN "FHIRSERVER"
-		//start the production
-		set status = ##class(FHIRLAB.FoundationProduction).Start()
-		ZN "USER"
-		set resources =  ..ListResourcesP(obj.Endpoint,obj.ApiKey)
-	  }
+	
 	  return resources
 	}
 	//Active Server data is not defined

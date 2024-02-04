@@ -10,7 +10,9 @@
     <SourcesRoot>src</SourcesRoot>
     <Resource Name="dc.PKG"/>
     <Resource Name="Solution.PKG"/>
+    <Resource Name="SolutionPRD.PKG"/>
     <FileCopy Name="python/" Target="${mgrdir}python/"/>   
+    <Invoke Class="Solution.Install" Method="Run"></Invoke>
     <Invoke Class="dc.FhirLab.Client" Method="Init"></Invoke>
       <CSPApplication
         Url="/csp/fhirlab"
@@ -23,7 +25,11 @@
         MatchRoles=":{$dbrole}" 
         PasswordAuthEnabled="1"
         UnauthenticatedEnabled="0"
-       />       
+       />    
+
+    <Invoke Class="Ens.Director" Method="SetAutoStart">
+         <Arg>SolutionPRD.FoundationProduction</Arg>
+    </Invoke>      
     </Module>
   </Document>
 </Export>
