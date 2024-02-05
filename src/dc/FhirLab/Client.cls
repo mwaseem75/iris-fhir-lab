@@ -113,6 +113,8 @@ ClassMethod ResourceJSONHumanP(resourceName, rowid, url, apikey) [ Language = py
 	return( human_json.to_human_json(data))
 }
 
+// Function to transform FHIR Message to HL7
+
 ClassMethod TransformHL7(resourceName As %String, rowid As %String) As %String
 {
 	//Get Active Server data based on Global Variable 
@@ -128,6 +130,46 @@ ClassMethod TransformHL7(resourceName As %String, rowid As %String) As %String
   		Quit "Not able to get server Info.."
   	}
   	return data
+}
+
+// 
+
+// Function to Transform FHIR to HL7 V2
+
+ClassMethod TransformFHIR(hl7msg As %String) As %String
+{
+	
+	Set content = $zcvt(hl7msg,"I","UTF8")	
+    set status = $$$OK
+	Set tBsName = "HL7_Http_Service"
+    set tMsg = ##class(EnsLib.HL7.Message).ImportFromString(content)    
+    try {
+        $$$ThrowOnError(##class(Ens.Director).CreateBusinessService(tBsName,.tService))        
+        $$$ThrowOnError(tService.ProcessInput(tMsg,.output))
+        #dim output as HS.FHIRServer.Interop.Response
+		// If there is any content, pass it back directly
+        set ensResponse = output
+		if ( ensResponse.QuickStreamId '= "" ) {
+			//Set %response.ContentType = ensResponse.ContentType
+			//Set %response.CharSet = ensResponse.CharSet
+			Set outputQuickStream = ##class(HS.SDA3.QuickStream).%OpenId(ensResponse.QuickStreamId)
+			do outputQuickStream.Rewind()
+			set res = outputQuickStream.Read(32000)
+			set res = ..ToJSON(res)
+			//set res = outputQuickStream.OutputToDevice().%ToJSON()
+			//set res = res.%ToJSON()		
+		}    
+    } catch ex {
+        set status = ex.AsStatus()
+    }    
+    return res
+}
+
+ClassMethod ToJSON(data) [ Language = python ]
+{
+	import json		
+	data = json.loads(data)
+	return json.dumps(data, indent=4)
 }
 
 // Transform FHIR to HL7 V2

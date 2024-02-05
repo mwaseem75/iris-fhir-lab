@@ -175,6 +175,7 @@ def GetResourceHTML(resource,patid,url,api_key):
     rows = GetTableData(resource,data,url,api_key)
     return rows
 
+
            
 #Function to create Patient Resource
 def CreatePatient(givenName,familyName,birthDate,gender,url,api_key):

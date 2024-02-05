@@ -17,7 +17,7 @@ ClassMethod Run() As %Status
 
     // Install an instance of a FHIR Service into the current namespace
     Do ##class(HS.FHIRServer.Installer).InstallInstance(appKey, strategyClass, metadataPackages)
-    do ##class(Ens.Director).StopProduction()
+    //do ##class(Ens.Director).StopProduction()
 
     set cspConfig = ##class(HS.Util.RESTCSPConfig).URLIndexOpen(appKey)
     set cspConfig.ServiceConfigName = "HS.FHIRServer.Interop.Service"
