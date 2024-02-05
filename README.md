@@ -123,7 +123,7 @@ Select HL7 to FHIR from the menu and enter HL7 V2 data, Click the convert button
 HL7 to FHIR Transformation is also using production to convert the HL7 V2 message to the FHIR message.
 
 HL7_Http_Service Business Service sends HL7 message to HL7_SDA process and then HL7_SDA sends SDA data to SDA_FHIR process, which finally converts it to FHIR
-![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/e032854d-dffa-43b9-a2d4-33418aaca3ea)
+![image](https://github.com/mwaseem75/iris-fhir-lab/assets/18219467/3835a154-b46a-4c7e-9fe4-ab0fc854a638)
 
 
 ## Development Resources
